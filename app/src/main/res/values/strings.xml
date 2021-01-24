@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Top IMDb</string>
+    <string name="error">Oops! something went wrong.</string>
+    <string name="try_again">Please try again later.</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="empty_data">Empty Data</string>
+</resources>
