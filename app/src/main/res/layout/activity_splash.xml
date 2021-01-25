@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".ui.splash.SplashActivity">
+    tools:context=".splash.SplashActivity">
 
-        <ImageView
-            android:id="@+id/activity_splash_iv_logo"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/logo"
-            tools:ignore="ContentDescription" />
+    <ImageView
+        android:id="@+id/activity_splash_iv_logo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/logo"
+        tools:ignore="ContentDescription" />
 
 </RelativeLayout>

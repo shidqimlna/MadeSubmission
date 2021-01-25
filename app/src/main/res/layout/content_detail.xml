@@ -4,23 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.detail.DetailActivity">
+    tools:context=".detail.DetailActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ProgressBar
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
         <ImageView
             android:id="@+id/content_detail_iv_poster"
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:background="@color/colorPrimary"
             android:scaleType="center"
             tools:ignore="ContentDescription" />
+
+        <ProgressBar
+            android:id="@+id/content_detail_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
     </FrameLayout>
 
@@ -28,7 +30,9 @@
         android:id="@+id/content_detail_tv_title"
         style="@style/CodeFontBold"
         android:gravity="center"
-        android:padding="16dp" />
+        android:fontFamily="@font/roboto_bold"
+        android:padding="16dp"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,8 +63,8 @@
                     android:id="@+id/content_detail_tv_voteaverage"
                     style="@style/CodeFontRegularGrey"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginHorizontal="2dp"
+                    android:layout_weight="1"
                     android:gravity="end" />
 
                 <TextView

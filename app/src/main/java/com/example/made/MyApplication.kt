@@ -4,8 +4,8 @@ import android.app.Application
 import com.example.made.core.di.databaseModule
 import com.example.made.core.di.networkModule
 import com.example.made.core.di.repositoryModule
-import com.example.made.ui.di.useCaseModule
-import com.example.made.ui.di.viewModelModule
+import com.example.made.di.useCaseModule
+import com.example.made.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
