@@ -1,31 +1,29 @@
 package com.example.made.core.data.source.local
 
-import androidx.lifecycle.LiveData
 import com.example.made.core.data.source.local.entity.MovieEntity
 import com.example.made.core.data.source.local.room.MovieDao
+import kotlinx.coroutines.flow.Flow
 
-class LocalDataSource private constructor(private val mainDao: MovieDao) {
+class LocalDataSource private constructor(private val movieDao: MovieDao) {
 
     companion object {
-        private var INSTANCE: LocalDataSource? = null
+        private var instance: LocalDataSource? = null
 
-        fun getInstance(mainDao: MovieDao): LocalDataSource {
-            if (INSTANCE == null) {
-                INSTANCE = LocalDataSource(mainDao)
+        fun getInstance(movieDao: MovieDao): LocalDataSource =
+            instance ?: synchronized(this) {
+                instance ?: LocalDataSource(movieDao)
             }
-            return INSTANCE as LocalDataSource
-        }
     }
 
-    fun getAllMovies(): LiveData<List<MovieEntity>> = mainDao.getAllMovies()
+    fun getAllMovies(): Flow<List<MovieEntity>> = movieDao.getAllMovies()
 
-    fun getFavoriteMovie(): LiveData<List<MovieEntity>> = mainDao.getFavoriteMovie()
+    fun getFavoriteMovie(): Flow<List<MovieEntity>> = movieDao.getFavoriteMovie()
 
-    fun insertMovies(movieList: List<MovieEntity>) = mainDao.insertMovies(movieList)
+    suspend fun insertMovies(movieList: List<MovieEntity>) = movieDao.insertMovies(movieList)
 
     fun setFavoriteMovie(movie: MovieEntity, newState: Boolean) {
         movie.isFavorite = newState
-        mainDao.updateFavoriteMovie(movie)
+        movieDao.updateFavoriteMovie(movie)
     }
 
 //    fun getMovieList(): LiveData<List<MovieEntity>> = mainDao.getMovieList()
