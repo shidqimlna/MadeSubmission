@@ -6,16 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.made.core.ui.MovieAdapter
-import com.example.made.core.ui.ViewModelFactory
 import com.example.made.databinding.FragmentFavoriteBinding
 import com.example.made.ui.detail.DetailActivity
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment() {
 
-    private lateinit var favoriteViewModel: FavoriteViewModel
+    private val favoriteViewModel: FavoriteViewModel by viewModel()
 
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
@@ -39,9 +38,6 @@ class FavoriteFragment : Fragment() {
                 intent.putExtra(DetailActivity.EXTRA_DATA, selectedData)
                 startActivity(intent)
             }
-
-            val factory = ViewModelFactory.getInstance(requireActivity())
-            favoriteViewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
 
             favoriteViewModel.favoriteMovie.observe(viewLifecycleOwner, { data ->
                 movieAdapter.setData(data)

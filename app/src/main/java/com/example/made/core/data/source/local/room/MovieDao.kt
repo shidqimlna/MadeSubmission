@@ -19,25 +19,4 @@ interface MovieDao {
     @Update
     fun updateFavoriteMovie(tourism: MovieEntity)
 
-//    @Query("SELECT * FROM movieEntity WHERE id = :movieId")
-//    fun getMovieDetail(movieId: String?): LiveData<MovieEntity>
-
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insertMovie(movies: MovieEntity)
-
-//    @Update
-//    fun updateMovie(movie: MovieEntity)
-
-//    @Query("SELECT * FROM favoriteMovieEntity")
-//    fun getFavorites(): LiveData<List<FavoriteMovieEntity>>
-//
-//    @Query("SELECT 1 FROM favoriteMovieEntity WHERE id = :favoriteId")
-//    fun checkFavorite(favoriteId: String): LiveData<Int>
-
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insertFavorite(favoriteEntity: FavoriteMovieEntity)
-//
-//    @Delete
-//    fun deleteFavorite(favoriteEntity: FavoriteMovieEntity)
-
 }

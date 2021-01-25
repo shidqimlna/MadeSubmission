@@ -12,10 +12,8 @@ data class Movie(
     var voteAverage: String? = null,
     var voteCount: String? = null,
     var popularity: String? = null,
-//    var runtime: Int? = null,
     var posterPath: String? = null,
     var backdropPath: String? = null,
-//    var genres: String? = null
     var isFavorite: Boolean = false
 ) : Parcelable
 

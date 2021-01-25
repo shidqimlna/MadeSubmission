@@ -9,9 +9,4 @@ interface ApiService {
     @GET("movie/popular?api_key=${BuildConfig.API_KEY}")
     suspend fun getMovieList(): MovieListResponse
 
-//    @GET("movie/{movie_id}?api_key=${BuildConfig.API_KEY}")
-//    fun getMovieDetail(
-//        @Path("movie_id") movie_id: String?
-//    ): Call<MovieApiItem>
-
 }

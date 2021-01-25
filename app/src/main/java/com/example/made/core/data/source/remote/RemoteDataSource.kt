@@ -11,15 +11,6 @@ import kotlinx.coroutines.flow.flowOn
 
 class RemoteDataSource constructor(private val apiService: ApiService) {
 
-    companion object {
-        @Volatile
-        private var instance: RemoteDataSource? = null
-        fun getInstance(service: ApiService): RemoteDataSource =
-            instance ?: synchronized(this) {
-                instance ?: RemoteDataSource(service)
-            }
-    }
-
     suspend fun getAllMovies(): Flow<ApiResponse<List<MovieResponse>>> {
         return flow {
             try {
@@ -35,36 +26,6 @@ class RemoteDataSource constructor(private val apiService: ApiService) {
                 Log.e("RemoteDataSource", e.toString())
             }
         }.flowOn(Dispatchers.IO)
-
-
-//        val result = MutableLiveData<ApiResponse<List<MovieResponse>>>()
-//        apiService.create()?.getMovieList()
-//            ?.enqueue(object : Callback<MovieListResponse> {
-//                override fun onResponse(
-//                    call: Call<MovieListResponse>,
-//                    response: Response<MovieListResponse>
-//                ) {
-//                    try {
-//                        val movieResponse: List<MovieResponse> =
-//                            response.body()?.results ?: emptyList()
-//                        if (movieResponse.isNullOrEmpty())
-//                            result.value = ApiResponse.Empty
-//                        else
-//                            result.value = ApiResponse.Success(movieResponse)
-//                    } catch (e: Exception) {
-//                        result.value = ApiResponse.Error(e.toString())
-//                        Log.e("RemoteDataSource", e.toString())
-//                        throw Exception(e.toString())
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<MovieListResponse>, t: Throwable) {
-//                    result.value = ApiResponse.Error(t.toString())
-//                    Log.e("RemoteDataSource", t.toString())
-//                    throw Exception(t.toString())
-//                }
-//            })
-//        return result
     }
 
 }

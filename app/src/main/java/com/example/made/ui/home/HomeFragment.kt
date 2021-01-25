@@ -6,21 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.made.core.data.Resource
 import com.example.made.core.ui.MovieAdapter
-import com.example.made.core.ui.ViewModelFactory
 import com.example.made.databinding.FragmentHomeBinding
 import com.example.made.ui.detail.DetailActivity
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
-    
-    private lateinit var homeViewModel: HomeViewModel
+
+    private val homeViewModel: HomeViewModel by viewModel()
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,38 +38,6 @@ class HomeFragment : Fragment() {
                 intent.putExtra(DetailActivity.EXTRA_DATA, selectedData)
                 startActivity(intent)
             }
-
-            val factory = ViewModelFactory.getInstance(requireActivity())
-            homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
-
-
-//            val viewModel = ViewModelProvider(
-//                requireActivity(),
-//                Injection.provideViewModelFactory(requireContext())
-//            )[MovieViewModel::class.java]
-
-//            val movieAdapter = MovieAdapter()
-
-//            viewModel.getMovieList().observe(this, { movies ->
-//                if (movies != null) {
-//                    when (movies.status) {
-//                        Status.LOADING -> fragment_movie_progress_bar.visibility = View.VISIBLE
-//                        Status.SUCCESS -> {
-//                            fragment_movie_progress_bar.visibility = View.GONE
-//                            movieAdapter.submitList(movies.data)
-//                            movieAdapter.notifyDataSetChanged()
-//                        }
-//                        Status.ERROR -> {
-//                            fragment_movie_progress_bar.visibility = View.GONE
-//                            Toast.makeText(
-//                                context,
-//                                resources.getString(R.string.error_message),
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        }
-//                    }
-//                }
-//            })
 
             homeViewModel.movie.observe(viewLifecycleOwner, { movie ->
                 if (movie != null) {
