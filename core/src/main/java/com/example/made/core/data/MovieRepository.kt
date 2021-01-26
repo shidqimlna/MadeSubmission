@@ -3,13 +3,15 @@ package com.example.made.core.data
 import com.example.made.core.data.source.local.LocalDataSource
 import com.example.made.core.data.source.remote.RemoteDataSource
 import com.example.made.core.data.source.remote.network.ApiResponse
-import com.example.made.core.data.source.remote.response.MovieResponse
 import com.example.made.core.domain.model.Movie
 import com.example.made.core.domain.repository.IMovieRepository
 import com.example.made.core.util.AppExecutors
 import com.example.made.core.util.DataMapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import java.util.*
 
 class MovieRepository constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -18,35 +20,62 @@ class MovieRepository constructor(
 ) : IMovieRepository {
 
     override fun getAllMovie(): Flow<Resource<List<Movie>>> =
-        object : NetworkBoundResource<List<Movie>, List<MovieResponse>>() {
-            override fun loadFromDB(): Flow<List<Movie>> {
-                return localDataSource.getAllMovies().map {
-                    DataMapper.mapEntitiesToDomain(it)
+        flow {
+            emit(Resource.Loading())
+            when (val apiResponse = remoteDataSource.getAllMovies().first()) {
+                is ApiResponse.Success -> {
+                    val movieEntity = DataMapper.mapResponsesToEntities(apiResponse.data)
+                    val movie = DataMapper.mapEntitiesToDomain(movieEntity)
+                    emit(Resource.Success(movie))
+                }
+                is ApiResponse.Empty -> {
+                    val movie = ArrayList<Movie>() as List<Movie>
+                    emit(Resource.Success(movie))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error<List<Movie>>(apiResponse.errorMessage))
                 }
             }
+        }
 
-            override fun shouldFetch(data: List<Movie>?): Boolean =
-                data == null || data.isEmpty()
-//                true
-
-            override suspend fun createCall(): Flow<ApiResponse<List<MovieResponse>>> =
-                remoteDataSource.getAllMovies()
-
-            override suspend fun saveCallResult(data: List<MovieResponse>) {
-                val movieList = DataMapper.mapResponsesToEntities(data)
-                localDataSource.insertMovies(movieList)
+    override fun getSearchMovie(query: String): Flow<Resource<List<Movie>>> =
+        flow {
+            emit(Resource.Loading())
+            when (val apiResponse = remoteDataSource.getSearchMovie(query).first()) {
+                is ApiResponse.Success -> {
+                    val movieEntity = DataMapper.mapResponsesToEntities(apiResponse.data)
+                    val movie = DataMapper.mapEntitiesToDomain(movieEntity)
+                    emit(Resource.Success(movie))
+                }
+                is ApiResponse.Empty -> {
+                    val movie = ArrayList<Movie>() as List<Movie>
+                    emit(Resource.Success(movie))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error<List<Movie>>(apiResponse.errorMessage))
+                }
             }
-        }.asFlow()
+        }
 
     override fun getFavoriteMovie(): Flow<List<Movie>> {
-        return localDataSource.getFavoriteMovie().map {
+        return localDataSource.getFavoriteMovies().map {
             DataMapper.mapEntitiesToDomain(it)
         }
     }
 
-    override fun setFavoriteMovie(movie: Movie, state: Boolean) {
+    override fun checkFavorite(movieId: String): Flow<Int> =
+        localDataSource.checkFavorite(movieId)
+
+    override fun insertFavorite(movie: Movie) {
         val movieEntity = DataMapper.mapDomainToEntity(movie)
-        appExecutors.diskIO().execute { localDataSource.setFavoriteMovie(movieEntity, state) }
+        if (movieEntity != null) appExecutors.diskIO()
+            .execute { localDataSource.insertFavorite(movieEntity) }
+    }
+
+    override fun deleteFavorite(movie: Movie) {
+        val movieEntity = DataMapper.mapDomainToEntity(movie)
+        if (movieEntity != null) appExecutors.diskIO()
+            .execute { localDataSource.deleteFavorite(movieEntity) }
     }
 
 }

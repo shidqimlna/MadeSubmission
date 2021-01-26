@@ -17,8 +17,7 @@ object DataMapper {
                 voteCount = it.voteCount,
                 releaseDate = it.releaseDate,
                 popularity = it.popularity,
-                overview = it.overview,
-                isFavorite = false
+                overview = it.overview
             )
             movieList.add(movie)
         }
@@ -36,22 +35,22 @@ object DataMapper {
                 voteCount = it.voteCount,
                 releaseDate = it.releaseDate,
                 popularity = it.popularity,
-                overview = it.overview,
-                isFavorite = it.isFavorite
+                overview = it.overview
             )
         }
 
-    fun mapDomainToEntity(input: Movie) = MovieEntity(
-        id = input.movieId,
-        title = input.title,
-        posterPath = input.posterPath,
-        backdropPath = input.backdropPath,
-        voteAverage = input.voteAverage,
-        voteCount = input.voteCount,
-        releaseDate = input.releaseDate,
-        popularity = input.popularity,
-        overview = input.overview,
-        isFavorite = input.isFavorite
-    )
+    fun mapDomainToEntity(input: Movie) = input.movieId?.let {
+        MovieEntity(
+            id = it,
+            title = input.title,
+            posterPath = input.posterPath,
+            backdropPath = input.backdropPath,
+            voteAverage = input.voteAverage,
+            voteCount = input.voteCount,
+            releaseDate = input.releaseDate,
+            popularity = input.popularity,
+            overview = input.overview
+        )
+    }
 
 }

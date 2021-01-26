@@ -26,7 +26,20 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val detailMovie = intent.getParcelableExtra<Movie>(EXTRA_DATA)
+        val detailMovie = intent.getParcelableExtra<Movie>(EXTRA_DATA) as Movie
+        detailViewModel.movie = detailMovie
+
+        var statusFavorite = false
+        detailViewModel.checkFavorite()?.observe(this, { state ->
+            statusFavorite = if (state != null) state == 1 else false
+            setStatusFavorite(statusFavorite)
+        })
+
+        binding.activityDetailFabFavorite.setOnClickListener {
+            if (statusFavorite) detailViewModel.deleteFavorite()
+            else detailViewModel.insertFavorite()
+        }
+
         showDetailMovie(detailMovie)
     }
 
@@ -45,19 +58,10 @@ class DetailActivity : AppCompatActivity() {
                         override fun onSuccess() {
                             contentDetailProgressbar.visibility = View.GONE
                         }
-
                         override fun onError(e: Exception?) {
                             contentDetailProgressbar.visibility = View.GONE
                         }
                     })
-            }
-
-            var statusFavorite = detailMovie.isFavorite
-            setStatusFavorite(statusFavorite)
-            binding.activityDetailFabFavorite.setOnClickListener {
-                statusFavorite = !statusFavorite
-                detailViewModel.setFavoriteMovie(detailMovie, statusFavorite)
-                setStatusFavorite(statusFavorite)
             }
         }
     }

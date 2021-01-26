@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorDarkWhite"
+    android:background="@color/colorDarkestWhite"
     tools:context=".home.HomeFragment">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragment_home_textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:startIconDrawable="@drawable/ic_search"
+        app:startIconTint="@color/colorAccent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fragment_home_et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/fragment_home_textInputLayout"
         android:id="@+id/fragment_home_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,4 +42,4 @@
         android:id="@+id/fragment_home_error_warning"
         layout="@layout/errorwarning_layout" />
 
-</FrameLayout>
+</RelativeLayout>

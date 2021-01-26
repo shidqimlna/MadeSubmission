@@ -18,6 +18,5 @@ data class MovieEntity(
     @ColumnInfo(name = "voteAverage") var voteAverage: String? = null,
     @ColumnInfo(name = "popularity") var popularity: String? = null,
     @ColumnInfo(name = "backdropPath") var backdropPath: String? = null,
-    @ColumnInfo(name = " voteCount") var voteCount: String? = null,
-    @ColumnInfo(name = "isFavorite") var isFavorite: Boolean = false
+    @ColumnInfo(name = " voteCount") var voteCount: String? = null
 ) : Parcelable

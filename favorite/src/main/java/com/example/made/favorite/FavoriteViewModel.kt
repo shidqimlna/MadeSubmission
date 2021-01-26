@@ -9,4 +9,3 @@ class FavoriteViewModel(movieUseCase: MovieUseCase) : ViewModel() {
     val favoriteMovie = movieUseCase.getFavoriteMovie().asLiveData()
 
 }
-

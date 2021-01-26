@@ -8,15 +8,15 @@ import kotlinx.coroutines.flow.Flow
 interface MovieDao {
 
     @Query("SELECT * FROM movie")
-    fun getAllMovies(): Flow<List<MovieEntity>>
-
-    @Query("SELECT * FROM movie where isFavorite = 1")
-    fun getFavoriteMovie(): Flow<List<MovieEntity>>
+    fun getFavoriteMovies(): Flow<List<MovieEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovies(movies: List<MovieEntity>)
+    fun insertFavorite(movies: MovieEntity)
 
-    @Update
-    fun updateFavoriteMovie(tourism: MovieEntity)
+    @Query("SELECT 1 FROM movie WHERE id = :favoriteId")
+    fun checkFavorite(favoriteId: String): Flow<Int>
+
+    @Delete
+    fun deleteFavorite(movie: MovieEntity)
 
 }

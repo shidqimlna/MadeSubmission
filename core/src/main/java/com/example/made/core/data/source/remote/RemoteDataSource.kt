@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.flowOn
 
 class RemoteDataSource constructor(private val apiService: ApiService) {
 
-    suspend fun getAllMovies(): Flow<ApiResponse<List<MovieResponse>>> {
-        return flow {
+    suspend fun getAllMovies(): Flow<ApiResponse<List<MovieResponse>>> =
+        flow {
             try {
                 val response = apiService.getMovieList()
                 val dataArray = response.results
@@ -26,8 +26,22 @@ class RemoteDataSource constructor(private val apiService: ApiService) {
                 Log.e("RemoteDataSource", e.toString())
             }
         }.flowOn(Dispatchers.IO)
-    }
+
+
+    suspend fun getSearchMovie(query: String): Flow<ApiResponse<List<MovieResponse>>> =
+        flow {
+            try {
+                val response = apiService.getSearchMovie(query)
+                val dataArray = response.results
+                if (dataArray.isNotEmpty()) {
+                    emit(ApiResponse.Success(response.results))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("RemoteDataSource", e.toString())
+            }
+        }.flowOn(Dispatchers.IO)
 
 }
-
-
