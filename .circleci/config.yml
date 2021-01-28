@@ -11,6 +11,9 @@ jobs:
       - restore_cache:
           key: android-orb-v1-
       - run:
+          name: Set buildConfigField API_KEY
+          command: echo "API_KEY=\"$API_KEY\"" >> ~/project/gradle.properties
+      - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
