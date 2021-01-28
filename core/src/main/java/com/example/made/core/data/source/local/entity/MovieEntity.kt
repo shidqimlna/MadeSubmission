@@ -1,12 +1,9 @@
 package com.example.made.core.data.source.local.entity
 
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 @Entity(tableName = "movie")
 data class MovieEntity(
     @PrimaryKey(autoGenerate = false)
@@ -19,4 +16,4 @@ data class MovieEntity(
     @ColumnInfo(name = "popularity") var popularity: String? = null,
     @ColumnInfo(name = "backdropPath") var backdropPath: String? = null,
     @ColumnInfo(name = " voteCount") var voteCount: String? = null
-) : Parcelable
+)

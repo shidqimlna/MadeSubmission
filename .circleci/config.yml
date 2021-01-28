@@ -11,8 +11,17 @@ jobs:
       - restore_cache:
           key: android-orb-v1-
       - run:
+          name: Set JVM Heap Size
+          command: echo "org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8" >> ~/project/gradle.properties
+      - run:
           name: Set buildConfigField API_KEY
           command: echo "API_KEY=\"$API_KEY\"" >> ~/project/gradle.properties
+      - run:
+          name: Set useAndroidX
+          command: echo "android.useAndroidX=true" >> ~/project/gradle.properties
+      - run:
+          name: Set enableJetifier
+          command: echo "android.enableJetifier=true" >> ~/project/gradle.properties
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew

@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Top IMDb</string>
     <string name="error">Oops! something went wrong.</string>
-    <string name="try_again">Please try again later.</string>
+    <string name="try_again">Please check your connection and try again later.</string>
     <string name="home">Home</string>
     <string name="favorite">Favorite</string>
-    <string name="empty_data">Empty Data</string>
+    <string name="empty_data">No data found</string>
     <string name="vote_count">(%1$s)</string>
     <string name="search">Search</string>
 </resources>

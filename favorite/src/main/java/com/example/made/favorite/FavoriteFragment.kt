@@ -37,10 +37,6 @@ class FavoriteFragment : Fragment() {
         if (activity != null) {
             val movieAdapter = MovieAdapter()
             movieAdapter.onItemClick = { selectedData ->
-//                val bundle = Bundle()
-//                bundle.putParcelable(DetailActivity.EXTRA_DATA, selectedData)
-//                view.findNavController().navigate(R.id.action_navigation_favorite_to_detail, bundle)
-
                 val intent = Intent(activity, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.EXTRA_DATA, selectedData)
                 startActivity(intent)

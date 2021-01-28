@@ -3,11 +3,10 @@ package com.example.made.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,20 +65,13 @@ class HomeFragment : Fragment() {
     private fun observeMovie() {
         homeViewModel.movie.observe(viewLifecycleOwner, { movie ->
             if (movie != null) {
-                with(binding) {
-                    when (movie) {
-                        is Resource.Loading -> fragmentHomeProgressBar.root.visibility =
-                            View.VISIBLE
-                        is Resource.Success -> {
-                            fragmentHomeProgressBar.root.visibility = View.GONE
-                            movieAdapter.setData(movie.data)
-                        }
-                        is Resource.Error -> {
-                            fragmentHomeProgressBar.root.visibility = View.GONE
-                            fragmentHomeErrorWarning.root.visibility = View.VISIBLE
-                            fragmentHomeErrorWarning.errorWarningTv.text = movie.message ?: ""
-                        }
+                when (movie) {
+                    is Resource.Loading -> stateLoading()
+                    is Resource.Success -> {
+                        stateSuccess(movie.data?.isEmpty() == true)
+                        movieAdapter.setData(movie.data)
                     }
+                    is Resource.Error -> stateError()
                 }
             }
         })
@@ -87,22 +79,14 @@ class HomeFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
     private fun observeQuery() {
-        binding.fragmentHomeEtSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        binding.fragmentHomeEtSearch.doOnTextChanged { text, _, _, _ ->
+            if (text != null) {
+                if (text.isNotEmpty())
+                    homeViewModel.setSearchQuery(text.toString())
+                else
+                    Handler(Looper.getMainLooper()).postDelayed({ observeMovie() }, 500)
             }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0 != null) {
-                    if (p0.isNotEmpty())
-                        homeViewModel.setSearchQuery(p0.toString())
-                    else
-                        Handler(Looper.getMainLooper()).postDelayed({ observeMovie() }, 500)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
+        }
     }
 
     @FlowPreview
@@ -110,26 +94,43 @@ class HomeFragment : Fragment() {
     private fun observeSearch() {
         homeViewModel.search.observe(viewLifecycleOwner, { movie ->
             if (movie != null) {
-                with(binding) {
-                    when (movie) {
-                        is Resource.Loading -> fragmentHomeProgressBar.root.visibility =
-                            View.VISIBLE
-                        is Resource.Success -> {
-                            fragmentHomeProgressBar.root.visibility = View.GONE
-                            movieAdapter.setData(movie.data)
-                        }
-                        is Resource.Error -> {
-                            fragmentHomeProgressBar.root.visibility = View.GONE
-                            fragmentHomeErrorWarning.root.visibility = View.VISIBLE
-                            fragmentHomeErrorWarning.errorWarningTv.text = movie.message ?: ""
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                fragmentHomeErrorWarning.root.visibility = View.GONE
-                            }, 1500)
-                        }
+                when (movie) {
+                    is Resource.Loading -> stateLoading()
+                    is Resource.Success -> {
+                        stateSuccess(movie.data?.isEmpty() == true)
+                        movieAdapter.setData(movie.data)
                     }
+                    is Resource.Error -> stateError()
                 }
             }
         })
+    }
+
+    private fun stateLoading() {
+        with(binding) {
+            fragmentHomeProgressBar.root.visibility = View.VISIBLE
+            fragmentHomeTvEmpty.visibility = View.GONE
+            fragmentHomeErrorWarning.root.visibility = View.GONE
+        }
+    }
+
+    private fun stateSuccess(empty: Boolean) {
+        with(binding) {
+            fragmentHomeProgressBar.root.visibility = View.GONE
+            fragmentHomeErrorWarning.root.visibility = View.GONE
+            fragmentHomeTvEmpty.visibility = if (empty) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun stateError() {
+        with(binding) {
+            fragmentHomeProgressBar.root.visibility = View.GONE
+            fragmentHomeTvEmpty.visibility = View.GONE
+            fragmentHomeErrorWarning.root.visibility = View.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                fragmentHomeErrorWarning.root.visibility = View.GONE
+            }, 1500)
+        }
     }
 
     override fun onDestroyView() {

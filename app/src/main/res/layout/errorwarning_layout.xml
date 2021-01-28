@@ -28,12 +28,6 @@
             android:text="@string/error" />
 
         <TextView
-            android:id="@+id/error_warning_tv"
-            style="@style/CodeFontRegular"
-            android:layout_marginTop="4dp"
-            android:gravity="center" />
-
-        <TextView
             style="@style/CodeFontRegular"
             android:layout_marginTop="4dp"
             android:gravity="center"
