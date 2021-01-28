@@ -23,6 +23,7 @@
             app:cardElevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/item_movie_tv_title"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -48,6 +49,7 @@
             android:maxLines="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_movie_cv_poster"
+            app:layout_constraintBottom_toTopOf="@id/item_movie_iv_star"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -57,16 +59,20 @@
             android:layout_gravity="center"
             android:layout_margin="2dp"
             android:src="@drawable/ic_star"
+            app:layout_constraintBottom_toTopOf="@id/item_movie_tv_overview"
             app:layout_constraintStart_toEndOf="@id/item_movie_cv_poster"
             app:layout_constraintTop_toBottomOf="@id/item_movie_tv_title"
+            app:layout_constraintEnd_toStartOf="@id/item_movie_tv_voteaverage"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/item_movie_tv_voteaverage"
             style="@style/CodeFontRegularGrey"
+            android:layout_width="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="2dp"
-            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintBottom_toTopOf="@id/item_movie_tv_overview"
+            app:layout_constraintEnd_toStartOf="@id/item_movie_iv_popular"
             app:layout_constraintStart_toEndOf="@id/item_movie_iv_star"
             app:layout_constraintTop_toBottomOf="@id/item_movie_tv_title" />
 
@@ -77,6 +83,8 @@
             android:layout_gravity="center"
             android:layout_margin="2dp"
             android:src="@drawable/ic_popularity"
+            app:layout_constraintBottom_toTopOf="@id/item_movie_tv_overview"
+            app:layout_constraintEnd_toStartOf="@id/item_movie_tv_popularity"
             app:layout_constraintStart_toEndOf="@id/item_movie_tv_voteaverage"
             app:layout_constraintTop_toBottomOf="@id/item_movie_tv_title"
             tools:ignore="ContentDescription" />
@@ -84,10 +92,11 @@
         <TextView
             android:id="@+id/item_movie_tv_popularity"
             style="@style/CodeFontRegularGrey"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="2dp"
-            android:layout_weight="1"
+            app:layout_constraintBottom_toTopOf="@id/item_movie_tv_overview"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_movie_iv_popular"
             app:layout_constraintTop_toBottomOf="@id/item_movie_tv_title" />
 
@@ -98,9 +107,11 @@
             android:layout_margin="4dp"
             android:ellipsize="end"
             android:maxLines="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_movie_cv_poster"
             app:layout_constraintTop_toBottomOf="@id/item_movie_iv_star" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

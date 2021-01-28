@@ -7,12 +7,15 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("movie/popular?api_key=${BuildConfig.API_KEY}")
-    suspend fun getMovieList(): MovieListResponse
+    @GET("movie/popular")
+    suspend fun getMovieList(
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY,
+    ): MovieListResponse
 
-    @GET("search/movie?api_key=${BuildConfig.API_KEY}")
+    @GET("search/movie")
     suspend fun getSearchMovie(
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
     ): MovieListResponse
 
 }

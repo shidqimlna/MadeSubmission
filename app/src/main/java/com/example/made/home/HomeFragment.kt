@@ -129,7 +129,7 @@ class HomeFragment : Fragment() {
             fragmentHomeErrorWarning.root.visibility = View.VISIBLE
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentHomeErrorWarning.root.visibility = View.GONE
-            }, 1500)
+            }, 2000)
         }
     }
 
