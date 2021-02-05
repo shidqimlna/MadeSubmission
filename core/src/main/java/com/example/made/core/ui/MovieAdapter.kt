@@ -1,14 +1,19 @@
 package com.example.made.core.ui
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.example.made.core.R
 import com.example.made.core.databinding.ItemMovieBinding
 import com.example.made.core.domain.model.Movie
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import java.util.*
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
@@ -24,7 +29,9 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false))
+        ListViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
+        )
 
     override fun getItemCount() = listData.size
 
@@ -39,17 +46,30 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
 
         fun bindView(data: Movie) {
             with(binding) {
-                Picasso.get().load(IMAGE_URL + data.posterPath).fit()
-                    .error(R.drawable.ic_errorimage)
-                    .into(itemMovieIvPoster, object : Callback {
-                        override fun onSuccess() {
+                Glide.with(itemView.context).load(IMAGE_URL + data.posterPath)
+                    .error(R.drawable.ic_errorimage).listener(object :
+                        RequestListener<Drawable?> {
+                        override fun onLoadFailed(
+                            @Nullable e: GlideException?,
+                            model: Any,
+                            target: Target<Drawable?>,
+                            isFirstResource: Boolean
+                        ): Boolean {
                             itemMovieProgressbar.visibility = View.GONE
+                            return false
                         }
 
-                        override fun onError(e: Exception?) {
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any,
+                            target: Target<Drawable?>,
+                            dataSource: DataSource,
+                            isFirstResource: Boolean
+                        ): Boolean {
                             itemMovieProgressbar.visibility = View.GONE
+                            return false
                         }
-                    })
+                    }).into(itemMovieIvPoster)
                 itemMovieTvTitle.text = data.title
                 itemMovieTvVoteaverage.text = data.voteAverage
                 itemMovieTvPopularity.text = data.popularity
