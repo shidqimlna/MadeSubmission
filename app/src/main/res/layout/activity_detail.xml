@@ -24,7 +24,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         app:backgroundTint="@color/colorAccent"
-        app:srcCompat="@drawable/ic_favorite_fill"
+        app:srcCompat="@drawable/ic_favorite_empty"
         app:tint="@null"
         tools:ignore="ContentDescription" />
 
