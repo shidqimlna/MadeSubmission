@@ -1,19 +1,14 @@
 package com.example.made.detail
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.example.made.R
 import com.example.made.core.domain.model.Movie
 import com.example.made.databinding.ActivityDetailBinding
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
@@ -57,40 +52,17 @@ class DetailActivity : AppCompatActivity() {
                 contentDetailTvPopularity.text = it.popularity
                 contentDetailTvReleasedate.text = it.releaseDate
                 contentDetailTvOverview.text = it.overview
-                Glide.with(applicationContext).load(IMAGE_URL + it.backdropPath)
-                    .error(R.drawable.ic_errorimage).listener(object :
-                        RequestListener<Drawable?> {
-                        override fun onLoadFailed(
-                            @Nullable e: GlideException?,
-                            model: Any,
-                            target: Target<Drawable?>,
-                            isFirstResource: Boolean
-                        ): Boolean {
+                Picasso.get().load(IMAGE_URL + it.backdropPath).fit()
+                    .error(R.drawable.ic_errorimage)
+                    .into(contentDetailIvPoster, object : Callback {
+                        override fun onSuccess() {
                             contentDetailProgressbar.visibility = View.GONE
-                            return false
                         }
 
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any,
-                            target: Target<Drawable?>,
-                            dataSource: DataSource,
-                            isFirstResource: Boolean
-                        ): Boolean {
+                        override fun onError(e: Exception?) {
                             contentDetailProgressbar.visibility = View.GONE
-                            return false
                         }
-                    }).into(contentDetailIvPoster)
-//                Picasso.get().load(IMAGE_URL + it.backdropPath).fit()
-//                    .error(R.drawable.ic_errorimage)
-//                    .into(contentDetailIvPoster, object : Callback {
-//                        override fun onSuccess() {
-//                            contentDetailProgressbar.visibility = View.GONE
-//                        }
-//                        override fun onError(e: Exception?) {
-//                            contentDetailProgressbar.visibility = View.GONE
-//                        }
-//                    })
+                    })
             }
         }
     }

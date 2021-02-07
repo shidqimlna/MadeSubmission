@@ -39,6 +39,7 @@
         style="@style/CodeFontBold"
         android:layout_centerInParent="true"
         android:text="@string/empty_data"
+        android:gravity="center"
         android:visibility="gone" />
 
     <include

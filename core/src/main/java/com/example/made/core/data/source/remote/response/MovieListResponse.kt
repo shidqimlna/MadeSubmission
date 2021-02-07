@@ -1,9 +1,7 @@
 package com.example.made.core.data.source.remote.response
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import com.google.gson.annotations.SerializedName
 
-@Parcelize
 data class MovieListResponse(
-    val results: List<MovieResponse>
-) : Parcelable
+    @SerializedName("results") val results: List<MovieResponse>
+)
