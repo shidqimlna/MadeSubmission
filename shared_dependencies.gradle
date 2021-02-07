@@ -4,6 +4,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
+    implementation "androidx.multidex:multidex:2.0.1"
 
     //ui
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
