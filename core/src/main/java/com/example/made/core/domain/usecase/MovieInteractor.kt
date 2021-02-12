@@ -5,7 +5,11 @@ import com.example.made.core.domain.repository.IMovieRepository
 
 class MovieInteractor(private val movieRepository: IMovieRepository) : MovieUseCase {
 
-    override fun getAllMovie() = movieRepository.getAllMovie()
+    override fun getPopularMovies() = movieRepository.getPopularMovies()
+
+    override fun getTopRatedMovies() = movieRepository.getTopRatedMovies()
+
+    override fun getUpcomingMovies() = movieRepository.getUpcomingMovies()
 
     override fun getSearchMovie(query: String) = movieRepository.getSearchMovie(query)
 

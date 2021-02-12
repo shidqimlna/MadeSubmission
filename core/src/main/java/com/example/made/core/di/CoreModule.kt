@@ -1,7 +1,6 @@
 package com.example.made.core.di
 
 import androidx.room.Room
-import com.example.made.core.BuildConfig
 import com.example.made.core.data.MovieRepository
 import com.example.made.core.data.source.local.LocalDataSource
 import com.example.made.core.data.source.local.room.MovieDatabase
@@ -23,7 +22,8 @@ import java.util.concurrent.TimeUnit
 val databaseModule = module {
     factory { get<MovieDatabase>().movieDao() }
     single {
-        val passphrase: ByteArray = SQLiteDatabase.getBytes(BuildConfig.API_KEY.toCharArray())
+        val cipher = "zTqwccWaCgrUP8BGkfl88yMyJZBgDH5WGvL9Bcn5Be30cRcL0NgG2MMLq8GGvL9Bcn5Be3"
+        val passphrase: ByteArray = SQLiteDatabase.getBytes(cipher.toCharArray())
         val factory = SupportFactory(passphrase)
         Room.databaseBuilder(
             androidContext(),

@@ -6,7 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieUseCase {
 
-    fun getAllMovie(): Flow<Resource<List<Movie>>>
+    fun getPopularMovies(): Flow<Resource<List<Movie>>>
+
+    fun getTopRatedMovies(): Flow<Resource<List<Movie>>>
+
+    fun getUpcomingMovies(): Flow<Resource<List<Movie>>>
 
     fun getSearchMovie(query: String): Flow<Resource<List<Movie>>>
 

@@ -2,17 +2,48 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/navigation_popular">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.made.home.HomeFragment"
-        android:label="@string/home"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/navigation_popular"
+        android:name="com.example.made.popular.PopularFragment"
+        android:label="@string/popular"
+        tools:layout="@layout/fragment_popular">
         <action
-            android:id="@+id/action_navigation_home_to_detail"
+            android:id="@+id/action_navigation_popular_to_detail"
             app:destination="@id/detailActivity" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_toprated"
+        android:name="com.example.made.toprated.TopRatedFragment"
+        android:label="@string/toprated"
+        tools:layout="@layout/fragment_toprated">
+        <action
+            android:id="@+id/action_navigation_toprated_to_detail"
+            app:destination="@id/detailActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_upcoming"
+        android:name="com.example.made.upcoming.UpcomingFragment"
+        android:label="@string/upcoming"
+        tools:layout="@layout/fragment_upcoming">
+        <action
+            android:id="@+id/action_navigation_upcoming_to_detail"
+            app:destination="@id/detailActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.example.made.search.SearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_navigation_search_to_detail"
+            app:destination="@id/detailActivity" />
+    </fragment>
+
     <fragment
         android:id="@+id/navigation_favorite"
         android:name="com.example.made.favorite.FavoriteFragment"
@@ -22,6 +53,7 @@
             android:id="@+id/action_navigation_favorite_to_detail"
             app:destination="@id/detailActivity" />
     </fragment>
+
     <activity
         android:id="@+id/detailActivity"
         android:name="com.example.made.detail.DetailActivity"

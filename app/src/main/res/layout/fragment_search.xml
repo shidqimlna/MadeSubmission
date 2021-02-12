@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDarkestWhite"
-    tools:context=".home.HomeFragment">
+    tools:context=".search.SearchFragment">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_home_textInputLayout"
+        android:id="@+id/fragment_search_textInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         app:startIconTint="@color/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fragment_home_et_search"
+            android:id="@+id/fragment_search_et_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/search"
@@ -27,15 +27,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/fragment_home_textInputLayout"
-        android:id="@+id/fragment_home_recyclerView"
+        android:id="@+id/fragment_search_recyclerView"
+        android:layout_below="@id/fragment_search_textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_movie" />
 
     <TextView
-        android:id="@+id/fragment_home_tv_empty"
+        android:id="@+id/fragment_search_tv_empty"
         style="@style/CodeFontBold"
         android:layout_centerInParent="true"
         android:text="@string/empty_data"
@@ -43,11 +43,11 @@
         android:visibility="gone" />
 
     <include
-        android:id="@+id/fragment_home_progress_bar"
+        android:id="@+id/fragment_search_progress_bar"
         layout="@layout/progressbar_layout" />
 
     <include
-        android:id="@+id/fragment_home_error_warning"
+        android:id="@+id/fragment_search_error_warning"
         layout="@layout/errorwarning_layout" />
 
 </RelativeLayout>

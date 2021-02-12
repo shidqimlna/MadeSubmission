@@ -19,10 +19,48 @@ class MovieRepository constructor(
     private val appExecutors: AppExecutors
 ) : IMovieRepository {
 
-    override fun getAllMovie(): Flow<Resource<List<Movie>>> =
+    override fun getPopularMovies(): Flow<Resource<List<Movie>>> =
         flow {
             emit(Resource.Loading())
-            when (val apiResponse = remoteDataSource.getAllMovies().first()) {
+            when (val apiResponse = remoteDataSource.getPopularMovies().first()) {
+                is ApiResponse.Success -> {
+                    val movieEntity = DataMapper.mapResponsesToEntities(apiResponse.data)
+                    val movie = DataMapper.mapEntitiesToDomain(movieEntity)
+                    emit(Resource.Success(movie))
+                }
+                is ApiResponse.Empty -> {
+                    val movie = ArrayList<Movie>() as List<Movie>
+                    emit(Resource.Success(movie))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error<List<Movie>>(apiResponse.errorMessage))
+                }
+            }
+        }
+
+    override fun getTopRatedMovies(): Flow<Resource<List<Movie>>> =
+        flow {
+            emit(Resource.Loading())
+            when (val apiResponse = remoteDataSource.getTopRatedMovies().first()) {
+                is ApiResponse.Success -> {
+                    val movieEntity = DataMapper.mapResponsesToEntities(apiResponse.data)
+                    val movie = DataMapper.mapEntitiesToDomain(movieEntity)
+                    emit(Resource.Success(movie))
+                }
+                is ApiResponse.Empty -> {
+                    val movie = ArrayList<Movie>() as List<Movie>
+                    emit(Resource.Success(movie))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error<List<Movie>>(apiResponse.errorMessage))
+                }
+            }
+        }
+
+    override fun getUpcomingMovies(): Flow<Resource<List<Movie>>> =
+        flow {
+            emit(Resource.Loading())
+            when (val apiResponse = remoteDataSource.getUpcomingMovies().first()) {
                 is ApiResponse.Success -> {
                     val movieEntity = DataMapper.mapResponsesToEntities(apiResponse.data)
                     val movie = DataMapper.mapEntitiesToDomain(movieEntity)

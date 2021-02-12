@@ -1,4 +1,4 @@
-package com.example.made.home
+package com.example.made.search
 
 import android.os.Bundle
 import android.os.Handler
@@ -13,17 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.made.R
 import com.example.made.core.data.Resource
 import com.example.made.core.ui.MovieAdapter
-import com.example.made.databinding.FragmentHomeBinding
+import com.example.made.databinding.FragmentSearchBinding
 import com.example.made.detail.DetailActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment() {
+class SearchFragment : Fragment() {
 
-    private val homeViewModel: HomeViewModel by viewModel()
+    private val searchViewModel: SearchViewModel by viewModel()
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var movieAdapter: MovieAdapter
@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,14 +46,13 @@ class HomeFragment : Fragment() {
             movieAdapter.onItemClick = { selectedData ->
                 val bundle = Bundle()
                 bundle.putParcelable(DetailActivity.EXTRA_DATA, selectedData)
-                view.findNavController().navigate(R.id.action_navigation_home_to_detail, bundle)
+                view.findNavController().navigate(R.id.action_navigation_search_to_detail, bundle)
             }
 
-            observeMovie()
             observeQuery()
             observeSearch()
 
-            with(binding.fragmentHomeRecyclerView) {
+            with(binding.fragmentSearchRecyclerView) {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = movieAdapter
@@ -62,37 +61,17 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun observeMovie() {
-        homeViewModel.movie.observe(viewLifecycleOwner, { movie ->
-            if (movie != null) {
-                when (movie) {
-                    is Resource.Loading -> stateLoading()
-                    is Resource.Success -> {
-                        stateSuccess(movie.data?.isEmpty() == true)
-                        movieAdapter.setData(movie.data)
-                    }
-                    is Resource.Error -> stateError()
-                }
-            }
-        })
-    }
-
     @ExperimentalCoroutinesApi
     private fun observeQuery() {
-        binding.fragmentHomeEtSearch.doOnTextChanged { text, _, _, _ ->
-            if (text != null) {
-                if (text.isNotEmpty())
-                    homeViewModel.setSearchQuery(text.toString())
-                else
-                    Handler(Looper.getMainLooper()).postDelayed({ observeMovie() }, 500)
-            }
+        binding.fragmentSearchEtSearch.doOnTextChanged { text, _, _, _ ->
+            if (text != null && text.isNotEmpty()) searchViewModel.setSearchQuery(text.toString())
         }
     }
 
     @FlowPreview
     @ExperimentalCoroutinesApi
     private fun observeSearch() {
-        homeViewModel.search.observe(viewLifecycleOwner, { movie ->
+        searchViewModel.search.observe(viewLifecycleOwner, { movie ->
             if (movie != null) {
                 when (movie) {
                     is Resource.Loading -> stateLoading()
@@ -108,27 +87,27 @@ class HomeFragment : Fragment() {
 
     private fun stateLoading() {
         with(binding) {
-            fragmentHomeProgressBar.root.visibility = View.VISIBLE
-            fragmentHomeTvEmpty.visibility = View.GONE
-            fragmentHomeErrorWarning.root.visibility = View.GONE
+            fragmentSearchProgressBar.root.visibility = View.VISIBLE
+            fragmentSearchTvEmpty.visibility = View.GONE
+            fragmentSearchErrorWarning.root.visibility = View.GONE
         }
     }
 
     private fun stateSuccess(empty: Boolean) {
         with(binding) {
-            fragmentHomeProgressBar.root.visibility = View.GONE
-            fragmentHomeErrorWarning.root.visibility = View.GONE
-            fragmentHomeTvEmpty.visibility = if (empty) View.VISIBLE else View.GONE
+            fragmentSearchProgressBar.root.visibility = View.GONE
+            fragmentSearchErrorWarning.root.visibility = View.GONE
+            fragmentSearchTvEmpty.visibility = if (empty) View.VISIBLE else View.GONE
         }
     }
 
     private fun stateError() {
         with(binding) {
-            fragmentHomeProgressBar.root.visibility = View.GONE
-            fragmentHomeTvEmpty.visibility = View.GONE
-            fragmentHomeErrorWarning.root.visibility = View.VISIBLE
+            fragmentSearchProgressBar.root.visibility = View.GONE
+            fragmentSearchTvEmpty.visibility = View.GONE
+            fragmentSearchErrorWarning.root.visibility = View.VISIBLE
             Handler(Looper.getMainLooper()).postDelayed({
-                fragmentHomeErrorWarning.root.visibility = View.GONE
+                fragmentSearchErrorWarning.root.visibility = View.GONE
             }, 2000)
         }
     }

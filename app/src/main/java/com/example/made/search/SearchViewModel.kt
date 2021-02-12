@@ -1,4 +1,4 @@
-package com.example.made.home
+package com.example.made.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -8,9 +8,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 
-class HomeViewModel(movieUseCase: MovieUseCase) : ViewModel() {
-
-    val movie = movieUseCase.getAllMovie().asLiveData()
+class SearchViewModel(movieUseCase: MovieUseCase) : ViewModel() {
 
     @ExperimentalCoroutinesApi
     private val queryChannel = ConflatedBroadcastChannel<String>()
