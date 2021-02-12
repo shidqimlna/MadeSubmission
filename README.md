@@ -2,6 +2,7 @@
 [![shidqimlna](https://circleci.com/gh/shidqimlna/MadeSubmission.svg?style=svg)](https://circleci.com/gh/shidqimlna/MadeSubmission)   [![license](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/shidqimlna/MadeSubmission/blob/master/LICENSE)
 
 ## Features
+* TMDb API
 * Clean Architechure
 * Coroutine Flow
 * Koin
@@ -12,6 +13,3 @@
 * Obfuscation
 * Certificate Pinning
 * Firebase Crashlytics
-
-## Reference
-* https://www.dicoding.com/academies/165
